@@ -64,22 +64,24 @@
     }
 
     .fade-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 3s ease-in;
-    z-index: 2;
-  }
+  display: none;
+  opacity: 0;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: opacity 3s ease-in;
+}
 
-  .fade-container.visible {
-    opacity: 1;
-  }
+.fade-container.visible {
+  display: flex;
+  opacity: 1;
+}
+
 
   .fade-container img {
     max-width: 90%;
@@ -123,7 +125,10 @@
     setTimeout(() => {
       clearInterval(intervalo);
       document.getElementById("conteudo").style.display = "none";
-      document.getElementById("final").classList.add("visible");
+      const final = document.getElementById("final");
+final.style.display = "flex"; // mostra o container
+setTimeout(() => final.classList.add("visible"), 50); // ativa o fade-in
+
   
       const audio = document.getElementById("audioBoo");
       audio.volume = 1.0;
