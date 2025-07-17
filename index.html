@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wi-Fi Grátis</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 2px solid #cfcfcf;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+      z-index: 1;
+    }
+
+    .card h1 {
+      font-size: 1.5em;
+      color: #5c4dff;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    .info span {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .note {
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 15px;
+    }
+
+    .fade-img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 3s ease-in;
+      z-index: 2;
+    }
+
+    .visible {
+      opacity: 1 !important;
+    }
+
+    .fade-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 3s ease-in;
+    z-index: 2;
+  }
+
+  .fade-container.visible {
+    opacity: 1;
+  }
+
+  .fade-container img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  }
+  </style>
+</head>
+<body>
+  <div class="card" id="conteudo">
+    <h1>📶 Wi-Fi Grátis</h1>
+    <div class="info">
+      Rede: <span>Free_Public_Wifi</span><br>
+      Senha: <span id="senha"></span>
+    </div>
+  </div>
+
+  <div class="fade-container" id="final">
+    <img src="pegadinha.jpg" alt="pegadinha final" />
+  </div>  
+
+  <audio id="audioBoo" src="boo.mp3"></audio>
+
+  <script>
+    function gerarSenha(digitos = 12) {
+      let senha = '';
+      for (let i = 0; i < digitos; i++) {
+        senha += Math.floor(Math.random() * 10);
+      }
+      return senha;
+    }
+  
+    function atualizarSenha() {
+      document.getElementById("senha").textContent = gerarSenha(12);
+    }
+  
+    atualizarSenha();
+    const intervalo = setInterval(atualizarSenha, 10000);
+  
+    setTimeout(() => {
+      clearInterval(intervalo);
+      document.getElementById("conteudo").style.display = "none";
+      document.getElementById("final").classList.add("visible");
+  
+      const audio = document.getElementById("audioBoo");
+      audio.volume = 1.0;
+      audio.play().catch(() => {
+        // fallback: toca se houver interação anterior
+        document.body.addEventListener("click", () => audio.play(), { once: true });
+      });
+    }, 30000); // 30 segundos
+  </script>  
+</body>
+</html>
